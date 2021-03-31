@@ -1,0 +1,12 @@
+#spring:
+#  config:
+#    activate:
+#      on-profile:
+#      - ssl
+server:
+  ssl:
+    enabled: true
+    key-alias: 1
+    key-store: classpath:localhost.keystore.p12
+    key-store-password: password
+    key-store-type: PKCS12
