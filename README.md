@@ -7,7 +7,7 @@ enabling in boot or configuring the app, but creating or obtaining SSL certifica
 In this boot app we explore how to do that so that we can have a working boot
 app setup running SSL on localhost.
 
-All tutorials I have seen so far invariably end up making this work by using
+Most (if not all) tutorials I have seen so far invariably end up making this work by using
 self-signed certificates and then telling the https client somehow to disable
 security. This allows those tutorials / examples to get away with using 
 certificates that are actually not properly constructed.
