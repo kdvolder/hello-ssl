@@ -212,7 +212,7 @@ to the (long) list of trusted authorities that comes preconfigured in the client
 Sometimes you can add the certificate in your OS and it will then work with all clients. However, each client is a little different and
 some may use their own built-in list of trusted certificates rather than the OS-wide list.
 
-For some examples of what you may need to do:
+For some examples of what you may need to do we will look at using our Root CA with Chrome and curl.
 
 Configuring Chrome to Trust our Root CA
 =======================================
@@ -226,8 +226,8 @@ Configuring Chrome to Trust our Root CA
 
 Now when you load the url again it should work without any errors/warnings because the https traffic is properly signed with a certificate that is validate via a 'trusted authority'.
 
-Using Curl
-==========
+Using Curl with out Root CA
+===========================
 
 Similarly to Chrome, if you simply:
 
@@ -241,7 +241,7 @@ You will get an error like:
 curl: (60) SSL certificate problem: unable to get local issuer certificate
 ```
 
-You can tell curl that we trust our own root CA:
+To avoid this we simply tell curl that we trust our own root CA:
 
 ```
 $ curl --cacert cacert.crt https://localhost:8080
