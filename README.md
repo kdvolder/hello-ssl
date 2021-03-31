@@ -4,7 +4,7 @@ Simple Boot App with proper SSL
 Enabling SSL in spring-boot is relatively easy. The hardest part is not the 
 enabling in boot or configuring the app, but creating or obtaining SSL certificates.
 
-In this boot app we explore how to do that so that we can have a working boot
+In this sample we explore how to do that so that we can have a working boot
 app setup running SSL on localhost.
 
 Most (if not all) tutorials I have seen so far invariably end up making this work by using
@@ -13,9 +13,9 @@ security. This allows those tutorials / examples to get away with using
 certificates that are actually not properly constructed.
 
 In this example we are also going to use self-signed certificates. But we will *not* 
-disable security. Instead we want to insure that the certificates are created/formatted 
+disable security. Instead we want to make sure that the certificates are actually constructed 
 properly; and configure/instruct clients (such as google chrome and curl)
-to accept our self-signed root certificate.
+to accept our self-signed root certificate as just another trusted authority.
 
 TLDR; See `scripts/create-certificates.sh` for the steps/commands
 involved in creating certificates.
