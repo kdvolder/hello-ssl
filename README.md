@@ -27,9 +27,9 @@ Create Root Certificate
 
 The root certificate is a so called 'self-signed' certificate. The root certificate
 represents a 'trusted authority'. The root certificate is used to sign other certificates.
-Because we trust 'autority' represented by the root, it follows that we trust the 
-information in the  certificates signed by the Root. This creates a 'chain of trust'.
-A web client such as a browser verifiess SSL certificates by essentially doing two things:
+Because we trust the 'authority' represented by the root, it follows that we trust the 
+information in the certificates signed indirectly by the Root. This creates a 'chain of trust'
+allowing a web client such as a browser verifies SSL certificates by essentially doing two things:
 
 - check that the certificate matches the domain name of the website
 - check that the certificate is signed (indirectly) by a trusted autority.
