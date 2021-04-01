@@ -226,7 +226,7 @@ Configuring Chrome to Trust our Root CA
 
 Now when you load the url again it should work without any errors/warnings because the https traffic is properly signed with a certificate that is validate via a 'trusted authority'.
 
-Using Curl with out Root CA
+Using Curl with our Root CA
 ===========================
 
 Similarly to Chrome, if you simply:
