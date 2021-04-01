@@ -44,7 +44,7 @@ openssl x509 -in ${domain}.crt -noout -text
 cat ${domain}.key ${domain}.crt > ${domain}.pem
 openssl pkcs12 -password pass:password -export -in ${domain}.pem -out ${domain}.keystore.p12
 
-# list contents of keystore (commented out because it asks for password, run that thing manually to inspect the keystore.
+# list contents of keystore
 keytool -list -v -storepass password -keystore ${domain}.keystore.p12
 
 # place keystore in classpath where the sample project expects it
