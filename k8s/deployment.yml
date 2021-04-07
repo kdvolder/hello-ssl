@@ -11,10 +11,29 @@ spec:
       labels:
         app: hello-world
     spec:
+      volumes:
+      - name: certs
+        secret:
+          secretName: hello-ssl-secret
       containers:
       - name: hello-world
         image: kdvolder/hello-world
         imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /certs
+            name: certs
+            readOnly: true
+        env:
+        - name: server.ssl.enabled
+          value: "true"
+        - name: server.ssl.key-alias
+          value: "1"
+        - name: server.ssl.keystore
+          value: /certs/keystore.p12
+        - name: server.ssl.key-store-password
+          value: password
+        - name: server.ssl.key-store-type
+          value: PKCS12
         resources:
           limits:
             memory: "1Gi"

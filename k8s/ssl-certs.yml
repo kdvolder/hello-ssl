@@ -1,0 +1,65 @@
+# Self-signed issuer is used to 'bootstrap' 
+# I.e. we will use it to issue a self-signed root-ca certificate.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+# Create root-ca, we will use this to create
+# certificate(s) for websites using ssl.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: root-ca
+  namespace: default
+spec:
+  isCA: true
+  commonName: root-ca
+  secretName: root-ca
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Create CA issuer using our root CA
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: root-ca
+  namespace: default
+spec:
+  ca:
+    secretName: root-ca
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keystore-password
+type: Opaque
+data:
+  password: cGFzc3dvcmQ=
+---
+# Issue certificate for our https website
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hello-ssl-crt
+spec:
+  secretName: hello-ssl-secret
+  dnsNames:
+  - "*.kdvolder.cf"
+  - localhost
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        key: password
+        name: keystore-password
+  issuerRef:
+    name: root-ca
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: Issuer
+    group: cert-manager.io

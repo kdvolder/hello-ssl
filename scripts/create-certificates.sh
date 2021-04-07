@@ -5,14 +5,18 @@ set -e
 # Source material for many of these commands: 
 # https://tldp.org/HOWTO/SSL-Certificates-HOWTO/
 
-mkdir workdir # create a working dir, makes it easier to delete all that stuff
+mkdir -p workdir # create a working dir, makes it easier to delete all that stuff
 cd workdir
 
 # Creating a root certificate
-mkdir -p private # place to keep our private key
-openssl req -config /etc/ssl/openssl.cnf -nodes \
-	-subj "/C=CA/O=Test/CN=Test_RootCert/" \
-	-new -x509 -keyout private/cakey.pem -out cacert.crt -days 3650
+if [ ! -f cacert.crt ]; then
+    mkdir -p private # place to keep our private key
+    openssl req -config /etc/ssl/openssl.cnf -nodes \
+        -subj "/C=CA/O=Test/CN=Test_RootCert/" \
+        -new -x509 -keyout private/cakey.pem -out cacert.crt -days 3650
+else
+    echo "We already have a root cacert.crt, so just using that!"
+fi
 
 # Add root certificate to chrome. 
 # This is a manual process. Search for certificates in settings page. Add the 'cacert.crt' as a 'Authority'.
@@ -33,7 +37,7 @@ openssl req -config /etc/ssl/openssl.cnf -nodes -new -subj "/C=CA/CN=${domain}" 
 #   We need SAN but signing doesn't copy it from request without heavy hoop jumping.
 #   Seems the 'easiest' solution is to put SAN into a separate config file to be passed to signing command...
 # Note: multple DNS:... entries can be added as comma separated list.
-echo "subjectAltName = DNS:${domain}" > ${domain}-openssl-ext.cnf
+echo "subjectAltName = DNS:${domain}, DNS:*.kdvolder.cf" > ${domain}-openssl-ext.cnf
 openssl x509 -extfile ${domain}-openssl-ext.cnf \
     -req -in ${domain}.req -CA cacert.crt -CAkey private/cakey.pem -CAcreateserial -out ${domain}.crt -days 5000 -sha256
 
